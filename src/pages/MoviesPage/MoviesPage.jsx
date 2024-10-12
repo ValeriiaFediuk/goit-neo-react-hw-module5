@@ -24,7 +24,7 @@ const MoviesPage = () => {
       const results = await searchMovies(searchQuery);
       setMovies(results);
     } catch (err) {
-      setError('Не вдалося знайти фільми за вашим запитом.');
+      setError('Failed to find movies for your query');
     }
   };
 

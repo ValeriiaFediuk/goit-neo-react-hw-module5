@@ -13,7 +13,7 @@ const HomePage = () => {
         const trending = await fetchTrendingMovies();
         setMovies(trending);
       } catch (err) {
-        setError('Не вдалося завантажити популярні фільми.');
+        setError('Failed to load popular movies');
       }
     };
 
