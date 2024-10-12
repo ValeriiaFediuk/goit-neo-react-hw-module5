@@ -1,0 +1,16 @@
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.item a {
+  color: #007bff;
+}
+
+.item a:hover {
+  text-decoration: underline;
+}

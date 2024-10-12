@@ -1,0 +1,53 @@
+.details {
+  padding: 20px;
+}
+
+.backButton {
+  padding: 8px 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.movie {
+  display: flex;
+  gap: 20px;
+}
+
+.poster {
+  width: 300px;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h1 {
+  margin-top: 0;
+}
+
+.additional {
+  margin-top: 20px;
+}
+
+.additional ul {
+  list-style: none;
+  padding: 0;
+}
+
+.additional li {
+  margin-bottom: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+}

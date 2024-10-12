@@ -1,0 +1,19 @@
+.reviews {
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
+}
+
+.review {
+  margin-bottom: 20px;
+}
+
+.review h3 {
+  margin-bottom: 5px;
+}
+
+.review p {
+  margin: 0;
+}
