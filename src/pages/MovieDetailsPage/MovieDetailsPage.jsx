@@ -1,69 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import styles from './MovieDetailsPage.module.css';
 import { fetchMovieDetails } from '../../services/tmdbApi';
+import styles from './MovieDetailsPage.module.css';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const prevLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
-        const details = await fetchMovieDetails(movieId);
-        setMovie(details);
-      } catch (err) {
-        setError('Failed to fetch movie details');
+        const data = await fetchMovieDetails(movieId);
+        setMovie(data);
+      } catch (error) {
+        setError('Failed to load movie details.');
       }
     };
-
     getMovieDetails();
   }, [movieId]);
 
   const handleGoBack = () => {
-    if (location.state?.from) {
-      navigate(location.state.from);
-    } else {
-      navigate('/movies');
-    }
+    navigate(prevLocationRef.current);
   };
 
   if (error) return <p className={styles.error}>{error}</p>;
-  if (!movie) return <p>Loading...</p>;
+  if (!movie) return <p className={styles.loading}>Loading...</p>;
 
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : 'https://via.placeholder.com/500x750?text=No+Image';
 
   return (
-    <div className={styles.details}>
-      <button onClick={handleGoBack} className={styles.backButton}>
-        Go back
+    <div className={styles.movieDetails}>
+      <button onClick={handleGoBack} className={styles.goBackButton}>
+        &#8592; Go Back
       </button>
-      <div className={styles.movie}>
+      <div className={styles.detailsContainer}>
         <img src={imageUrl} alt={movie.title} className={styles.poster} />
-        <div className={styles.info}>
-          <h1>{movie.title}</h1>
-          <p>Rating: {Math.round(movie.vote_average * 10)}%</p>
-          <h2>Summary</h2>
-          <p>{movie.overview}</p>
-          <h3>Genre</h3>
-          <p>{movie.genres.map((genre) => genre.name).join(', ')}</p>
+        <div className={styles.movieInfo}>
+          <h2 className={styles.title}>{movie.title}</h2>
+          <p className={styles.userScore}>User Score: {Math.round(movie.vote_average * 10)}%</p>
+          <h3 className={styles.sectionTitle}>Overview</h3>
+          <p className={styles.overview}>{movie.overview}</p>
+          <h3 className={styles.sectionTitle}>Genres</h3>
+          <p className={styles.genres}>{movie.genres.map(genre => genre.name).join(', ')}</p>
         </div>
       </div>
-      <div className={styles.additional}>
-        <h2>Additional information</h2>
-        <ul>
+      <div className={styles.additionalInfo}>
+        <h3 className={styles.sectionTitle}>Additional Information</h3>
+        <ul className={styles.infoList}>
           <li>
-            <Link to="cast" className={styles.link}>
-            Cast
+            <Link to="cast" className={styles.link} state={{ from: prevLocationRef.current }}>
+              Cast
             </Link>
           </li>
           <li>
-            <Link to="reviews" className={styles.link}>
+            <Link to="reviews" className={styles.link} state={{ from: prevLocationRef.current }}>
               Reviews
             </Link>
           </li>
